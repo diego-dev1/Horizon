@@ -23,8 +23,6 @@
     {%- render 'scripts' -%}
     {%- render 'theme-styles-variables' -%}
     {%- render 'color-palette' -%}
-
-    {{ 'theme.js' | asset_url | script_tag }} 
     
     {% if request.design_mode %}
       {%- render 'theme-editor' -%}
