@@ -10,12 +10,15 @@
       <div class="coffee-gallery__main">
 
         {% if product.featured_image %}
+
           <img
             id="coffee-main-image-{{ section.id }}"
             src="{{ product.featured_image | image_url: width: 900 }}"
             alt="{{ product.featured_image.alt | default: product.title | escape }}"
           >
+
         {% endif %}
+
 
         {% if product.images.size > 1 %}
 
@@ -26,6 +29,7 @@
           >
             ‹
           </button>
+
 
           <button
             type="button"
@@ -73,7 +77,7 @@
       </div>
 
 
-      <!-- Title -->
+      <!-- Product Title -->
       <h1>{{ product.title }}</h1>
 
 
@@ -100,7 +104,11 @@
 
         <div class="flavor-options">
 
-          {% assign flavors = product.options_with_values | where: "name", "Flavor" %}
+          {% assign flavors =
+            product.options_with_values
+            | where: "name", "Flavor"
+          %}
+
 
           {% if flavors.size > 0 %}
 
@@ -114,19 +122,35 @@
 
                 <strong>{{ value }}</strong>
 
+
                 {% case value %}
 
                   {% when 'Classic Roast' %}
-                    <span>Rich and balanced</span>
+
+                    <span>
+                      Rich and balanced
+                    </span>
+
 
                   {% when 'Vanilla Latte' %}
-                    <span>Smooth and lightly sweet</span>
+
+                    <span>
+                      Smooth and lightly sweet
+                    </span>
+
 
                   {% when 'Mocha' %}
-                    <span>Coffee with chocolate notes</span>
+
+                    <span>
+                      Coffee with chocolate notes
+                    </span>
+
 
                   {% else %}
-                    <span>Choose this flavor</span>
+
+                    <span>
+                      Choose this flavor
+                    </span>
 
                 {% endcase %}
 
@@ -154,9 +178,13 @@
             data-purchase="one_time"
           >
 
-            <strong>One-Time Purchase</strong>
+            <strong>
+              One-Time Purchase
+            </strong>
 
-            <span>Regular price</span>
+            <span>
+              Regular price
+            </span>
 
           </button>
 
@@ -167,9 +195,13 @@
             data-purchase="subscribe"
           >
 
-            <strong>Subscribe &amp; Save</strong>
+            <strong>
+              Subscribe &amp; Save
+            </strong>
 
-            <span>Additional 10% Off</span>
+            <span>
+              Additional 10% Off
+            </span>
 
           </button>
 
@@ -185,13 +217,18 @@
 
         <div class="pack-options">
 
-          {% assign pack_option = product.options_with_values | where: "name", "Pack" %}
+          {% assign pack_option =
+            product.options_with_values
+            | where: "name", "Pack"
+          %}
+
 
           {% if pack_option.size > 0 %}
 
             {% for pack in pack_option.first.values %}
 
-              {% assign pack_number = pack
+              {% assign pack_number =
+                pack
                 | remove: ' Sachets'
                 | strip
                 | plus: 0
@@ -205,15 +242,18 @@
                   {% assign base_price = 19.99 %}
                   {% assign serving_price = 1.67 %}
 
+
                 {% when 24 %}
 
                   {% assign base_price = 31.99 %}
                   {% assign serving_price = 1.33 %}
 
+
                 {% when 48 %}
 
                   {% assign base_price = 51.99 %}
                   {% assign serving_price = 1.08 %}
+
 
                 {% else %}
 
@@ -245,7 +285,9 @@
                 {% endif %}
 
 
-                <strong>{{ pack }}</strong>
+                <strong>
+                  {{ pack }}
+                </strong>
 
 
                 <span class="pack-price">
@@ -265,11 +307,15 @@
 
                 {% if pack_number == 24 %}
 
-                  <small>Save 20%</small>
+                  <small>
+                    Save 20%
+                  </small>
 
                 {% elsif pack_number == 48 %}
 
-                  <small>Save 35%</small>
+                  <small>
+                    Save 35%
+                  </small>
 
                 {% endif %}
 
@@ -287,9 +333,14 @@
       <!-- PRICE -->
       <div class="coffee-price">
 
-        <span>Your price</span>
+        <span>
+          Your price
+        </span>
 
-        <strong id="coffee-price-{{ section.id }}">
+
+        <strong
+          id="coffee-price-{{ section.id }}"
+        >
           $31.99
         </strong>
 
@@ -315,21 +366,45 @@
     type="application/json"
     id="coffee-variants-{{ section.id }}"
   >
-    [
-      {% for variant in product.variants %}
+  [
+    {% for variant in product.variants %}
 
-        {
-          "id": {{ variant.id | json }},
-          "title": {{ variant.title | json }},
-          "options": {{ variant.options | json }},
-          "price": {{ variant.price | json }},
-          "available": {{ variant.available | json }}
-        }
+      {
+        "id": {{ variant.id | json }},
 
-        {% unless forloop.last %},{% endunless %}
+        "title": {{ variant.title | json }},
 
-      {% endfor %}
-    ]
+        "options": {{ variant.options | json }},
+
+        "price": {{ variant.price | json }},
+
+        "available": {{ variant.available | json }},
+
+        "oneTimeOffer":
+          {{ variant.metafields.custom.one_time_offer_id.value
+            | default: ''
+            | json }},
+
+        "oneTimeVariant":
+          {{ variant.metafields.custom.one_time_variant_id.value
+            | default: ''
+            | json }},
+
+        "subscribeOffer":
+          {{ variant.metafields.custom.subscribe_offer_id.value
+            | default: ''
+            | json }},
+
+        "subscribeVariant":
+          {{ variant.metafields.custom.subscribe_variant_id.value
+            | default: ''
+            | json }}
+      }
+
+      {% unless forloop.last %},{% endunless %}
+
+    {% endfor %}
+  ]
   </script>
 
 </section>
@@ -348,7 +423,8 @@
   }
 
 
-  #custom-product-hero-{{ section.id }} .coffee-hero__inner {
+  #custom-product-hero-{{ section.id }}
+  .coffee-hero__inner {
 
     max-width: 1200px;
 
@@ -374,7 +450,8 @@
 
   /* Gallery */
 
-  #custom-product-hero-{{ section.id }} .coffee-gallery__main {
+  #custom-product-hero-{{ section.id }}
+  .coffee-gallery__main {
 
     position: relative;
 
@@ -387,7 +464,8 @@
   }
 
 
-  #custom-product-hero-{{ section.id }} .coffee-gallery__main > img {
+  #custom-product-hero-{{ section.id }}
+  .coffee-gallery__main > img {
 
     width: 100%;
 
@@ -398,7 +476,8 @@
   }
 
 
-  #custom-product-hero-{{ section.id }} .coffee-gallery__thumbs {
+  #custom-product-hero-{{ section.id }}
+  .coffee-gallery__thumbs {
 
     display: flex;
 
@@ -411,7 +490,8 @@
   }
 
 
-  #custom-product-hero-{{ section.id }} .coffee-thumb {
+  #custom-product-hero-{{ section.id }}
+  .coffee-thumb {
 
     width: 70px;
 
@@ -434,14 +514,16 @@
   }
 
 
-  #custom-product-hero-{{ section.id }} .coffee-thumb.active {
+  #custom-product-hero-{{ section.id }}
+  .coffee-thumb.active {
 
     border-color: #6b3f20;
 
   }
 
 
-  #custom-product-hero-{{ section.id }} .coffee-thumb img {
+  #custom-product-hero-{{ section.id }}
+  .coffee-thumb img {
 
     width: 100%;
 
@@ -454,8 +536,10 @@
 
   /* Gallery arrows */
 
-  #custom-product-hero-{{ section.id }} .gallery-prev,
-  #custom-product-hero-{{ section.id }} .gallery-next {
+  #custom-product-hero-{{ section.id }}
+  .gallery-prev,
+  #custom-product-hero-{{ section.id }}
+  .gallery-next {
 
     position: absolute;
 
@@ -484,21 +568,23 @@
   }
 
 
-  #custom-product-hero-{{ section.id }} .gallery-prev {
+  #custom-product-hero-{{ section.id }}
+  .gallery-prev {
 
     left: 12px;
 
   }
 
 
-  #custom-product-hero-{{ section.id }} .gallery-next {
+  #custom-product-hero-{{ section.id }}
+  .gallery-next {
 
     right: 12px;
 
   }
 
 
-  /* Product info */
+  /* Product */
 
   #custom-product-hero-{{ section.id }} h1 {
 
@@ -511,7 +597,8 @@
   }
 
 
-  #custom-product-hero-{{ section.id }} .coffee-rating {
+  #custom-product-hero-{{ section.id }}
+  .coffee-rating {
 
     color: #c47a20;
 
@@ -520,14 +607,16 @@
   }
 
 
-  #custom-product-hero-{{ section.id }} .coffee-rating span {
+  #custom-product-hero-{{ section.id }}
+  .coffee-rating span {
 
     color: #625a55;
 
   }
 
 
-  #custom-product-hero-{{ section.id }} .coffee-description {
+  #custom-product-hero-{{ section.id }}
+  .coffee-description {
 
     line-height: 1.6;
 
@@ -538,7 +627,8 @@
 
   /* Benefits */
 
-  #custom-product-hero-{{ section.id }} .coffee-benefits {
+  #custom-product-hero-{{ section.id }}
+  .coffee-benefits {
 
     padding: 0;
 
@@ -549,7 +639,8 @@
   }
 
 
-  #custom-product-hero-{{ section.id }} .coffee-benefits li {
+  #custom-product-hero-{{ section.id }}
+  .coffee-benefits li {
 
     margin: 7px 0;
 
@@ -558,7 +649,8 @@
 
   /* Selectors */
 
-  #custom-product-hero-{{ section.id }} .selector {
+  #custom-product-hero-{{ section.id }}
+  .selector {
 
     margin-top: 28px;
 
@@ -574,8 +666,10 @@
   }
 
 
-  #custom-product-hero-{{ section.id }} .flavor-options,
-  #custom-product-hero-{{ section.id }} .purchase-options {
+  #custom-product-hero-{{ section.id }}
+  .flavor-options,
+  #custom-product-hero-{{ section.id }}
+  .purchase-options {
 
     display: grid;
 
@@ -584,9 +678,12 @@
   }
 
 
-  #custom-product-hero-{{ section.id }} .flavor-option,
-  #custom-product-hero-{{ section.id }} .purchase-option,
-  #custom-product-hero-{{ section.id }} .pack-option {
+  #custom-product-hero-{{ section.id }}
+  .flavor-option,
+  #custom-product-hero-{{ section.id }}
+  .purchase-option,
+  #custom-product-hero-{{ section.id }}
+  .pack-option {
 
     border: 1px solid #d8d0ca;
 
@@ -605,28 +702,38 @@
   }
 
 
-  #custom-product-hero-{{ section.id }} .flavor-option:hover,
-  #custom-product-hero-{{ section.id }} .purchase-option:hover,
-  #custom-product-hero-{{ section.id }} .pack-option:hover {
+  #custom-product-hero-{{ section.id }}
+  .flavor-option:hover,
+  #custom-product-hero-{{ section.id }}
+  .purchase-option:hover,
+  #custom-product-hero-{{ section.id }}
+  .pack-option:hover {
 
     border-color: #6b3f20;
 
   }
 
 
-  #custom-product-hero-{{ section.id }} .flavor-option.active,
-  #custom-product-hero-{{ section.id }} .purchase-option.active,
-  #custom-product-hero-{{ section.id }} .pack-option.active {
+  #custom-product-hero-{{ section.id }}
+  .flavor-option.active,
+  #custom-product-hero-{{ section.id }}
+  .purchase-option.active,
+  #custom-product-hero-{{ section.id }}
+  .pack-option.active {
 
     border-color: #6b3f20;
 
-    box-shadow: 0 0 0 2px rgba(107,63,32,.12);
+    box-shadow:
+      0 0 0 2px
+      rgba(107,63,32,.12);
 
   }
 
 
-  #custom-product-hero-{{ section.id }} .flavor-option span,
-  #custom-product-hero-{{ section.id }} .purchase-option span {
+  #custom-product-hero-{{ section.id }}
+  .flavor-option span,
+  #custom-product-hero-{{ section.id }}
+  .purchase-option span {
 
     display: block;
 
@@ -641,18 +748,21 @@
 
   /* Packs */
 
-  #custom-product-hero-{{ section.id }} .pack-options {
+  #custom-product-hero-{{ section.id }}
+  .pack-options {
 
     display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns:
+      repeat(3, 1fr);
 
     gap: 10px;
 
   }
 
 
-  #custom-product-hero-{{ section.id }} .pack-option {
+  #custom-product-hero-{{ section.id }}
+  .pack-option {
 
     display: flex;
 
@@ -663,7 +773,8 @@
   }
 
 
-  #custom-product-hero-{{ section.id }} .pack-price {
+  #custom-product-hero-{{ section.id }}
+  .pack-price {
 
     font-size: 20px;
 
@@ -672,14 +783,16 @@
   }
 
 
-  #custom-product-hero-{{ section.id }} .pack-option small {
+  #custom-product-hero-{{ section.id }}
+  .pack-option small {
 
     color: #746c66;
 
   }
 
 
-  #custom-product-hero-{{ section.id }} .pack-badge {
+  #custom-product-hero-{{ section.id }}
+  .pack-badge {
 
     background: #6b3f20;
 
@@ -698,7 +811,8 @@
 
   /* Price */
 
-  #custom-product-hero-{{ section.id }} .coffee-price {
+  #custom-product-hero-{{ section.id }}
+  .coffee-price {
 
     display: flex;
 
@@ -715,7 +829,8 @@
   }
 
 
-  #custom-product-hero-{{ section.id }} .coffee-price strong {
+  #custom-product-hero-{{ section.id }}
+  .coffee-price strong {
 
     font-size: 32px;
 
@@ -724,7 +839,8 @@
 
   /* CTA */
 
-  #custom-product-hero-{{ section.id }} .coffee-cta {
+  #custom-product-hero-{{ section.id }}
+  .coffee-cta {
 
     width: 100%;
 
@@ -751,14 +867,16 @@
   }
 
 
-  #custom-product-hero-{{ section.id }} .coffee-cta:hover {
+  #custom-product-hero-{{ section.id }}
+  .coffee-cta:hover {
 
     background: #4f2d17;
 
   }
 
 
-  #custom-product-hero-{{ section.id }} .coffee-cta:disabled {
+  #custom-product-hero-{{ section.id }}
+  .coffee-cta:disabled {
 
     opacity: .6;
 
@@ -778,7 +896,8 @@
     }
 
 
-    #custom-product-hero-{{ section.id }} .coffee-hero__inner {
+    #custom-product-hero-{{ section.id }}
+    .coffee-hero__inner {
 
       grid-template-columns: 1fr;
 
@@ -794,7 +913,8 @@
     }
 
 
-    #custom-product-hero-{{ section.id }} .pack-options {
+    #custom-product-hero-{{ section.id }}
+    .pack-options {
 
       grid-template-columns: 1fr;
 
@@ -809,15 +929,17 @@
 
 (() => {
 
-  const root = document.getElementById(
-    'custom-product-hero-{{ section.id }}'
-  );
+  const root =
+    document.getElementById(
+      'custom-product-hero-{{ section.id }}'
+    );
+
 
   if (!root) return;
 
 
   /* --------------------------------
-     Shopify Variants
+     VARIANTS
   -------------------------------- */
 
   const variantsElement =
@@ -836,7 +958,7 @@
 
 
   /* --------------------------------
-     Elements
+     ELEMENTS
   -------------------------------- */
 
   const price =
@@ -852,70 +974,63 @@
 
 
   /* --------------------------------
-     Discount Code
-     
-     IMPORTANT:
-     Create this exact discount code
-     in Shopify Admin:
-     
-     SUBSCRIBE10
-  -------------------------------- */
-
-  const SUBSCRIBE_DISCOUNT =
-    'SUBSCRIBE10';
-
-
-  /* --------------------------------
-     Current selections
+     SELECTIONS
   -------------------------------- */
 
   let flavor = '';
 
   let pack = '';
 
-  let purchaseType = 'one_time';
+  let purchaseType =
+    'one_time';
 
 
   /* --------------------------------
-     Initial selections
+     INITIAL FLAVOR
   -------------------------------- */
 
-  const activeFlavorButton =
+  const activeFlavor =
     root.querySelector(
       '.flavor-option.active'
     );
 
 
-  const activePackButton =
+  if (activeFlavor) {
+
+    flavor =
+      activeFlavor.dataset.flavor;
+
+  }
+
+
+  /* --------------------------------
+     INITIAL PACK
+  -------------------------------- */
+
+  const activePack =
     root.querySelector(
       '.pack-option.active'
     );
 
 
-  if (activeFlavorButton) {
-
-    flavor =
-      activeFlavorButton.dataset.flavor;
-
-  }
-
-
-  if (activePackButton) {
+  if (activePack) {
 
     pack =
-      activePackButton.dataset.pack;
+      activePack.dataset.pack;
 
   }
 
 
   /*
-   * Fallback
+   * Fallback to first available variant
    */
+
   if (!flavor || !pack) {
 
     const firstVariant =
       variants.find(
-        variant => variant.available
+        variant =>
+          variant.available
       ) || variants[0];
 
 
@@ -933,7 +1048,7 @@
 
 
   /* --------------------------------
-     Select helper
+     SELECT
   -------------------------------- */
 
   function select(
@@ -960,7 +1075,7 @@
 
 
   /* --------------------------------
-     Get Shopify Variant
+     GET VARIANT
   -------------------------------- */
 
   function getVariant() {
@@ -970,9 +1085,11 @@
 
         return (
 
-          variant.options[0] === flavor &&
+          variant.options[0] ===
+          flavor &&
 
-          variant.options[1] === pack
+          variant.options[1] ===
+          pack
 
         );
 
@@ -983,25 +1100,7 @@
 
 
   /* --------------------------------
-     Money
-  -------------------------------- */
-
-  function formatMoney(
-    cents
-  ) {
-
-    return (
-      '$' +
-      (
-        Number(cents) / 100
-      ).toFixed(2)
-    );
-
-  }
-
-
-  /* --------------------------------
-     Update Price
+     PRICE
   -------------------------------- */
 
   function updatePrice() {
@@ -1027,9 +1126,9 @@
 
 
     /*
-     * Display 10% discount
-     * when Subscribe is selected.
+     * Subscribe price preview
      */
+
     if (
       purchaseType ===
       'subscribe'
@@ -1042,8 +1141,15 @@
 
 
     price.textContent =
-      formatMoney(amount);
+      '$' +
+      (
+        amount / 100
+      ).toFixed(2);
 
+
+    /*
+     * Availability
+     */
 
     if (!variant.available) {
 
@@ -1065,7 +1171,7 @@
 
 
   /* --------------------------------
-     Flavor
+     FLAVOR
   -------------------------------- */
 
   root
@@ -1097,7 +1203,7 @@
 
 
   /* --------------------------------
-     Purchase Type
+     PURCHASE
   -------------------------------- */
 
   root
@@ -1129,7 +1235,7 @@
 
 
   /* --------------------------------
-     Pack
+     PACK
   -------------------------------- */
 
   root
@@ -1161,12 +1267,12 @@
 
 
   /* --------------------------------
-     ADD TO CART
+     GET MY COFFEE
   -------------------------------- */
 
   cta.addEventListener(
     'click',
-    async () => {
+    () => {
 
       if (cta.disabled) return;
 
@@ -1178,11 +1284,10 @@
       if (!variant) {
 
         console.error(
-          'Shopify variant not found.',
+          'Variant not found:',
           {
             flavor,
-            pack,
-            variants
+            pack
           }
         );
 
@@ -1210,175 +1315,182 @@
 
 
       /*
-       * Disable CTA
+       * --------------------------------
+       * ONE-TIME PURCHASE
+       * --------------------------------
+       *
+       * Uses:
+       *
+       * oneTimeOffer
+       * oneTimeVariant
+       *
+       * Result:
+       *
+       * /checkout?products=OFFER.VARIANT:1
        */
 
-      cta.disabled = true;
+      if (
+        purchaseType ===
+        'one_time'
+      ) {
 
-      cta.textContent =
-        'ADDING…';
+        const offerId =
+          variant.oneTimeOffer;
 
 
-      try {
+        const checkoutVariantId =
+          variant.oneTimeVariant;
 
-        /*
-         * Add product to Shopify cart
-         */
 
-        const response =
-          await fetch(
-            window.Shopify.routes.root +
-            'cart/add.js',
+        if (
+          !offerId ||
+          !checkoutVariantId
+        ) {
+
+          console.error(
+            'One-time checkout mapping missing.',
             {
-
-              method: 'POST',
-
-              headers: {
-
-                'Content-Type':
-                  'application/json',
-
-                'Accept':
-                  'application/json'
-
-              },
-
-              body: JSON.stringify({
-
-                items: [
-
-                  {
-
-                    id:
-                      Number(
-                        variant.id
-                      ),
-
-                    quantity: 1
-
-                  }
-
-                ]
-
-              })
-
+              variant,
+              offerId,
+              checkoutVariantId
             }
           );
 
 
-        const data =
-          await response.json();
-
-
-        /*
-         * Shopify error
-         */
-
-        if (!response.ok) {
-
-          throw new Error(
-            data.description ||
-            data.message ||
-            'Unable to add product to cart.'
+          alert(
+            'One-time checkout is not configured for this variant.'
           );
 
+
+          return;
+
         }
+
+
+        const checkoutUrl =
+          'https://example-checkout.com/checkout?products=' +
+          encodeURIComponent(
+            offerId
+          ) +
+          '.' +
+          encodeURIComponent(
+            checkoutVariantId
+          ) +
+          ':1';
 
 
         console.log(
-          'Added to cart:',
-          data
+          'One-time checkout:',
+          checkoutUrl
         );
 
 
-        /*
-         * Subscribe:
-         * Apply actual Shopify discount
-         *
-         * One-Time:
-         * Normal cart
-         */
+        cta.disabled = true;
+
+        cta.textContent =
+          'REDIRECTING…';
+
+
+        window.location.href =
+          checkoutUrl;
+
+
+        return;
+
+      }
+
+
+      /*
+       * --------------------------------
+       * SUBSCRIBE & SAVE
+       * --------------------------------
+       *
+       * Uses:
+       *
+       * subscribeOffer
+       * subscribeVariant
+       *
+       * Result:
+       *
+       * /checkout?products=OFFER.VARIANT:1
+       *
+       * The subscription/10% price
+       * must be configured on the
+       * checkout side for this mapping.
+       */
+
+      if (
+        purchaseType ===
+        'subscribe'
+      ) {
+
+        const offerId =
+          variant.subscribeOffer;
+
+
+        const checkoutVariantId =
+          variant.subscribeVariant;
+
 
         if (
-          purchaseType ===
-          'subscribe'
+          !offerId ||
+          !checkoutVariantId
         ) {
 
-          cta.textContent =
-            'APPLYING DISCOUNT…';
-
-
-          /*
-           * Redirect using discount URL.
-           *
-           * Shopify applies the discount
-           * code to the cart.
-           */
-
-          const discountUrl =
-            window.Shopify.routes.root +
-            'discount/' +
-            encodeURIComponent(
-              SUBSCRIBE_DISCOUNT
-            ) +
-            '?redirect=/cart';
-
-
-          window.location.href =
-            discountUrl;
-
-
-        } else {
-
-          /*
-           * Normal one-time purchase
-           */
-
-          cta.textContent =
-            'ADDED ✓';
-
-
-          setTimeout(
-            () => {
-
-              window.location.href =
-                window.Shopify.routes.root +
-                'cart';
-
-            },
-            300
+          console.error(
+            'Subscribe checkout mapping missing.',
+            {
+              variant,
+              offerId,
+              checkoutVariantId
+            }
           );
+
+
+          alert(
+            'Subscribe & Save is not configured for this variant.'
+          );
+
+
+          return;
 
         }
 
 
-      } catch (error) {
+        const checkoutUrl =
+          'https://example-checkout.com/checkout?products=' +
+          encodeURIComponent(
+            offerId
+          ) +
+          '.' +
+          encodeURIComponent(
+            checkoutVariantId
+          ) +
+          ':1';
 
-        console.error(
-          'Add to cart error:',
-          error
+
+        console.log(
+          'Subscribe checkout:',
+          checkoutUrl
         );
 
 
-        cta.disabled = false;
+        cta.disabled = true;
 
         cta.textContent =
-          'GET MY COFFEE →';
+          'REDIRECTING…';
 
 
-        alert(
-          error.message ||
-          'Something went wrong. Please try again.'
-        );
+        window.location.href =
+          checkoutUrl;
 
       }
 
-    }
-  );
+    });
 
 
   /* --------------------------------
-     Gallery
+     GALLERY
   -------------------------------- */
 
   const thumbs = [
@@ -1506,7 +1618,7 @@
 
 
   /* --------------------------------
-     Initial Price
+     INITIAL PRICE
   -------------------------------- */
 
   updatePrice();
@@ -1528,7 +1640,6 @@
       "name": "Custom Product Hero"
     }
   ]
-
 }
 
 {% endschema %}
