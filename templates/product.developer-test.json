@@ -385,10 +385,17 @@
           "settings": {
             "product": ""
           }
+        },
+        "ali_reviews_widget_star_rating_jyTxpa": {
+          "type": "shopify://apps/ali-reviews/blocks/widget-star-rating/bf2eea72-0400-4db1-8908-44b7418f9a88",
+          "settings": {
+            "product": "{{closest.product}}"
+          }
         }
       },
       "block_order": [
-        "ali_reviews_widget_box_in_cart_dfT3tx"
+        "ali_reviews_widget_box_in_cart_dfT3tx",
+        "ali_reviews_widget_star_rating_jyTxpa"
       ],
       "settings": {
         "content_direction": "column",
