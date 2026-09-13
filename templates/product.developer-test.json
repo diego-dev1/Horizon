@@ -380,41 +380,15 @@
     "1789289987ee18d8f4": {
       "type": "_blocks",
       "blocks": {
-        "ali_reviews_review_badge_tBMHK6": {
-          "type": "shopify://apps/ali-reviews/blocks/review-badge/bf2eea72-0400-4db1-8908-44b7418f9a88",
-          "disabled": true,
-          "settings": {
-            "template_id": "highlight",
-            "verified_text": "Verified reviews",
-            "scale": 100,
-            "product_ids": []
-          }
-        },
-        "ali_reviews_widget_box_7HgDnw": {
-          "type": "shopify://apps/ali-reviews/blocks/widget-box/bf2eea72-0400-4db1-8908-44b7418f9a88",
-          "settings": {
-            "product": "nescafe-instant-coffee-sachets-1",
-            "collection": ""
-          }
-        },
         "ali_reviews_widget_box_in_cart_dfT3tx": {
           "type": "shopify://apps/ali-reviews/blocks/widget-box-in-cart/bf2eea72-0400-4db1-8908-44b7418f9a88",
           "settings": {
             "product": ""
           }
-        },
-        "ali_reviews_widget_star_rating_jyTxpa": {
-          "type": "shopify://apps/ali-reviews/blocks/widget-star-rating/bf2eea72-0400-4db1-8908-44b7418f9a88",
-          "settings": {
-            "product": "{{closest.product}}"
-          }
         }
       },
       "block_order": [
-        "ali_reviews_review_badge_tBMHK6",
-        "ali_reviews_widget_box_7HgDnw",
-        "ali_reviews_widget_box_in_cart_dfT3tx",
-        "ali_reviews_widget_star_rating_jyTxpa"
+        "ali_reviews_widget_box_in_cart_dfT3tx"
       ],
       "settings": {
         "content_direction": "column",
