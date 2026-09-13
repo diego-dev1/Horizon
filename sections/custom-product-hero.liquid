@@ -1633,17 +1633,9 @@ if (buyButton) {
        * Shopify variant.
        */
 
-      const checkoutUrl =
+      const checkoutUrl = 'https://brdholding-test.myshopify.com/cart/'+variantId+':1'
         'https://example-checkout.com/checkout?products=' +
-        encodeURIComponent(
-          offerId
-        ) +
-        '.' +
-        encodeURIComponent(
-          variantId
-        ) +
-        ':' +
-        quantity;
+       
 
 
       console.log(
