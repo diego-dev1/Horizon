@@ -346,6 +346,30 @@
 
 <style>
 
+    #custom-product-hero-{{ section.id }} .coffee-buy-button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 17px;
+  border: 0;
+  border-radius: 8px;
+  background: #c47a20;
+  color: white;
+  font-weight: 700;
+  font-size: 17px;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+#custom-product-hero-{{ section.id }} .coffee-buy-button:hover {
+  background: #a96318;
+}
+
+#custom-product-hero-{{ section.id }} .coffee-buy-button:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+
   #custom-product-hero-{{ section.id }} {
 
     padding: 60px 20px;
