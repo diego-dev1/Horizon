@@ -376,11 +376,66 @@
       "type": "custom-product-hero",
       "name": "Custom Product Hero",
       "settings": {}
+    },
+    "1789289987ee18d8f4": {
+      "type": "_blocks",
+      "blocks": {
+        "ali_reviews_review_badge_tBMHK6": {
+          "type": "shopify://apps/ali-reviews/blocks/review-badge/bf2eea72-0400-4db1-8908-44b7418f9a88",
+          "disabled": true,
+          "settings": {
+            "template_id": "highlight",
+            "verified_text": "Verified reviews",
+            "scale": 100,
+            "product_ids": []
+          }
+        },
+        "ali_reviews_widget_box_7HgDnw": {
+          "type": "shopify://apps/ali-reviews/blocks/widget-box/bf2eea72-0400-4db1-8908-44b7418f9a88",
+          "settings": {
+            "product": "",
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "ali_reviews_review_badge_tBMHK6",
+        "ali_reviews_widget_box_7HgDnw"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
     }
   },
   "order": [
     "main",
     "178925187511bd8a3d",
-    "custom_product_hero_EHBGGe"
+    "custom_product_hero_EHBGGe",
+    "1789289987ee18d8f4"
   ]
 }
