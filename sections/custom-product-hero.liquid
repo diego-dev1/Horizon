@@ -1546,6 +1546,141 @@
 
 
 })();
+
+
+
+
+const buyButton =
+  root.querySelector(
+    '#coffee-buy-button-{{ section.id }}'
+  );
+
+
+/* --------------------------------
+   DYNAMIC BUY NOW
+-------------------------------- */
+
+if (buyButton) {
+
+  buyButton.addEventListener(
+    'click',
+    () => {
+
+      if (buyButton.disabled) return;
+
+
+      /*
+       * Get currently selected
+       * Flavor + Pack variant
+       */
+
+      const variant = getVariant();
+
+
+      if (!variant) {
+
+        console.error(
+          'Shopify variant not found.',
+          {
+            flavor: flavor,
+            pack: pack
+          }
+        );
+
+
+        alert(
+          'Please select a valid flavor and pack.'
+        );
+
+
+        return;
+
+      }
+
+
+      /*
+       * Shopify dynamic variant ID
+       */
+
+      const variantId =
+        variant.id;
+
+
+      /*
+       * Your external checkout offer ID
+       */
+
+      const offerId =
+        '501';
+
+
+      /*
+       * Quantity
+       */
+
+      const quantity = 1;
+
+
+      /*
+       * Final URL
+       *
+       * Example:
+       *
+       * https://example-checkout.com/checkout?products=501.1101:1
+       *
+       * Here 1101 will automatically
+       * change according to selected
+       * Shopify variant.
+       */
+
+      const checkoutUrl =
+        'https://example-checkout.com/checkout?products=' +
+        encodeURIComponent(
+          offerId
+        ) +
+        '.' +
+        encodeURIComponent(
+          variantId
+        ) +
+        ':' +
+        quantity;
+
+
+      console.log(
+        'Selected Flavor:',
+        flavor
+      );
+
+      console.log(
+        'Selected Pack:',
+        pack
+      );
+
+      console.log(
+        'Dynamic Shopify Variant ID:',
+        variantId
+      );
+
+      console.log(
+        'Checkout URL:',
+        checkoutUrl
+      );
+
+
+      buyButton.disabled = true;
+
+      buyButton.textContent =
+        'REDIRECTING…';
+
+
+      window.location.href =
+        checkoutUrl;
+
+    }
+  );
+
+}
+
 </script>
 
 
