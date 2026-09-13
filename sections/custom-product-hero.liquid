@@ -1,0 +1,1534 @@
+<section
+  id="custom-product-hero-{{ section.id }}"
+  class="coffee-hero"
+>
+  <div class="coffee-hero__inner">
+
+    <!-- Gallery -->
+    <div class="coffee-gallery">
+
+      <div class="coffee-gallery__main">
+
+        {% if product.featured_image %}
+          <img
+            id="coffee-main-image-{{ section.id }}"
+            src="{{ product.featured_image | image_url: width: 900 }}"
+            alt="{{ product.featured_image.alt | default: product.title | escape }}"
+          >
+        {% endif %}
+
+        {% if product.images.size > 1 %}
+
+          <button
+            type="button"
+            class="gallery-prev"
+            aria-label="Previous image"
+          >
+            ‹
+          </button>
+
+          <button
+            type="button"
+            class="gallery-next"
+            aria-label="Next image"
+          >
+            ›
+          </button>
+
+        {% endif %}
+
+      </div>
+
+
+      <div class="coffee-gallery__thumbs">
+
+        {% for image in product.images %}
+
+          <button
+            type="button"
+            class="coffee-thumb{% if forloop.first %} active{% endif %}"
+            data-image="{{ image | image_url: width: 900 }}"
+          >
+
+            <img
+              src="{{ image | image_url: width: 150 }}"
+              alt="{{ image.alt | default: product.title | escape }}"
+            >
+
+          </button>
+
+        {% endfor %}
+
+      </div>
+
+    </div>
+
+
+    <!-- Product Information -->
+    <div class="coffee-info">
+
+      <!-- Rating -->
+      <div class="coffee-rating">
+        ★★★★★ <span>4.8/5</span>
+      </div>
+
+
+      <!-- Title -->
+      <h1>{{ product.title }}</h1>
+
+
+      <!-- Description -->
+      <div class="coffee-description">
+        {{ product.description }}
+      </div>
+
+
+      <!-- Benefits -->
+      <ul class="coffee-benefits">
+
+        <li>✓ Convenient individual sachets</li>
+        <li>✓ Rich coffee flavor</li>
+        <li>✓ Perfect for home or travel</li>
+
+      </ul>
+
+
+      <!-- FLAVOR -->
+      <div class="selector">
+
+        <h2>1. Choose Your Flavor</h2>
+
+        <div class="flavor-options">
+
+          {% assign flavors = product.options_with_values | where: "name", "Flavor" %}
+
+          {% if flavors.size > 0 %}
+
+            {% for value in flavors.first.values %}
+
+              <button
+                type="button"
+                class="flavor-option{% if forloop.first %} active{% endif %}"
+                data-flavor="{{ value | escape }}"
+              >
+
+                <strong>{{ value }}</strong>
+
+                {% case value %}
+
+                  {% when 'Classic Roast' %}
+                    <span>Rich and balanced</span>
+
+                  {% when 'Vanilla Latte' %}
+                    <span>Smooth and lightly sweet</span>
+
+                  {% when 'Mocha' %}
+                    <span>Coffee with chocolate notes</span>
+
+                  {% else %}
+                    <span>Choose this flavor</span>
+
+                {% endcase %}
+
+              </button>
+
+            {% endfor %}
+
+          {% endif %}
+
+        </div>
+
+      </div>
+
+
+      <!-- PURCHASE TYPE -->
+      <div class="selector">
+
+        <h2>2. Choose Purchase Type</h2>
+
+        <div class="purchase-options">
+
+          <button
+            type="button"
+            class="purchase-option active"
+            data-purchase="one_time"
+          >
+
+            <strong>One-Time Purchase</strong>
+
+            <span>Regular price</span>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="purchase-option"
+            data-purchase="subscribe"
+          >
+
+            <strong>Subscribe &amp; Save</strong>
+
+            <span>Additional 10% Off</span>
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- PACK -->
+      <div class="selector">
+
+        <h2>3. Choose Your Pack</h2>
+
+        <div class="pack-options">
+
+          {% assign pack_option = product.options_with_values | where: "name", "Pack" %}
+
+          {% if pack_option.size > 0 %}
+
+            {% for pack in pack_option.first.values %}
+
+              {% assign pack_number = pack
+                | remove: ' Sachets'
+                | strip
+                | plus: 0
+              %}
+
+
+              {% case pack_number %}
+
+                {% when 12 %}
+
+                  {% assign base_price = 19.99 %}
+                  {% assign serving_price = 1.67 %}
+
+                {% when 24 %}
+
+                  {% assign base_price = 31.99 %}
+                  {% assign serving_price = 1.33 %}
+
+                {% when 48 %}
+
+                  {% assign base_price = 51.99 %}
+                  {% assign serving_price = 1.08 %}
+
+                {% else %}
+
+                  {% assign base_price = 0 %}
+                  {% assign serving_price = 0 %}
+
+              {% endcase %}
+
+
+              <button
+                type="button"
+                class="pack-option{% if forloop.index == 2 %} active{% endif %}"
+                data-pack="{{ pack | escape }}"
+                data-price="{{ base_price }}"
+              >
+
+                {% if pack_number == 24 %}
+
+                  <span class="pack-badge">
+                    MOST POPULAR
+                  </span>
+
+                {% elsif pack_number == 48 %}
+
+                  <span class="pack-badge">
+                    BEST VALUE
+                  </span>
+
+                {% endif %}
+
+
+                <strong>{{ pack }}</strong>
+
+
+                <span class="pack-price">
+
+                  {{ base_price | times: 100 | money }}
+
+                </span>
+
+
+                <small>
+
+                  {{ serving_price | times: 100 | money }}
+                  per serving
+
+                </small>
+
+
+                {% if pack_number == 24 %}
+
+                  <small>Save 20%</small>
+
+                {% elsif pack_number == 48 %}
+
+                  <small>Save 35%</small>
+
+                {% endif %}
+
+              </button>
+
+            {% endfor %}
+
+          {% endif %}
+
+        </div>
+
+      </div>
+
+
+      <!-- PRICE -->
+      <div class="coffee-price">
+
+        <span>Your price</span>
+
+        <strong id="coffee-price-{{ section.id }}">
+          $31.99
+        </strong>
+
+      </div>
+
+
+      <!-- CTA -->
+      <button
+        type="button"
+        id="coffee-cta-{{ section.id }}"
+        class="coffee-cta"
+      >
+        GET MY COFFEE →
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- Shopify Variant Data -->
+  <script
+    type="application/json"
+    id="coffee-variants-{{ section.id }}"
+  >
+    [
+      {% for variant in product.variants %}
+
+        {
+          "id": {{ variant.id | json }},
+          "title": {{ variant.title | json }},
+          "options": {{ variant.options | json }},
+          "price": {{ variant.price | json }},
+          "available": {{ variant.available | json }}
+        }
+
+        {% unless forloop.last %},{% endunless %}
+
+      {% endfor %}
+    ]
+  </script>
+
+</section>
+
+
+<style>
+
+  #custom-product-hero-{{ section.id }} {
+
+    padding: 60px 20px;
+
+    background: #faf8f3;
+
+    color: #241b16;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .coffee-hero__inner {
+
+    max-width: 1200px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 60px;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} img {
+
+    max-width: 100%;
+
+    display: block;
+
+  }
+
+
+  /* Gallery */
+
+  #custom-product-hero-{{ section.id }} .coffee-gallery__main {
+
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 16px;
+
+    background: #fff;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .coffee-gallery__main > img {
+
+    width: 100%;
+
+    aspect-ratio: 1;
+
+    object-fit: cover;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .coffee-gallery__thumbs {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 12px;
+
+    overflow-x: auto;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .coffee-thumb {
+
+    width: 70px;
+
+    min-width: 70px;
+
+    height: 70px;
+
+    padding: 0;
+
+    border: 2px solid transparent;
+
+    background: white;
+
+    cursor: pointer;
+
+    border-radius: 6px;
+
+    overflow: hidden;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .coffee-thumb.active {
+
+    border-color: #6b3f20;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .coffee-thumb img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+  }
+
+
+  /* Gallery arrows */
+
+  #custom-product-hero-{{ section.id }} .gallery-prev,
+  #custom-product-hero-{{ section.id }} .gallery-next {
+
+    position: absolute;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    border: 0;
+
+    width: 40px;
+
+    height: 40px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    cursor: pointer;
+
+    font-size: 25px;
+
+    line-height: 1;
+
+    z-index: 2;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .gallery-prev {
+
+    left: 12px;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .gallery-next {
+
+    right: 12px;
+
+  }
+
+
+  /* Product info */
+
+  #custom-product-hero-{{ section.id }} h1 {
+
+    font-size: 42px;
+
+    line-height: 1.1;
+
+    margin: 0 0 15px;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .coffee-rating {
+
+    color: #c47a20;
+
+    margin-bottom: 10px;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .coffee-rating span {
+
+    color: #625a55;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .coffee-description {
+
+    line-height: 1.6;
+
+    color: #625a55;
+
+  }
+
+
+  /* Benefits */
+
+  #custom-product-hero-{{ section.id }} .coffee-benefits {
+
+    padding: 0;
+
+    list-style: none;
+
+    margin: 20px 0;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .coffee-benefits li {
+
+    margin: 7px 0;
+
+  }
+
+
+  /* Selectors */
+
+  #custom-product-hero-{{ section.id }} .selector {
+
+    margin-top: 28px;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} h2 {
+
+    font-size: 18px;
+
+    margin-bottom: 12px;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .flavor-options,
+  #custom-product-hero-{{ section.id }} .purchase-options {
+
+    display: grid;
+
+    gap: 10px;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .flavor-option,
+  #custom-product-hero-{{ section.id }} .purchase-option,
+  #custom-product-hero-{{ section.id }} .pack-option {
+
+    border: 1px solid #d8d0ca;
+
+    background: white;
+
+    border-radius: 10px;
+
+    padding: 14px;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .flavor-option:hover,
+  #custom-product-hero-{{ section.id }} .purchase-option:hover,
+  #custom-product-hero-{{ section.id }} .pack-option:hover {
+
+    border-color: #6b3f20;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .flavor-option.active,
+  #custom-product-hero-{{ section.id }} .purchase-option.active,
+  #custom-product-hero-{{ section.id }} .pack-option.active {
+
+    border-color: #6b3f20;
+
+    box-shadow: 0 0 0 2px rgba(107,63,32,.12);
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .flavor-option span,
+  #custom-product-hero-{{ section.id }} .purchase-option span {
+
+    display: block;
+
+    margin-top: 5px;
+
+    color: #746c66;
+
+    font-size: 14px;
+
+  }
+
+
+  /* Packs */
+
+  #custom-product-hero-{{ section.id }} .pack-options {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 10px;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .pack-option {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .pack-price {
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .pack-option small {
+
+    color: #746c66;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .pack-badge {
+
+    background: #6b3f20;
+
+    color: white;
+
+    font-size: 10px;
+
+    padding: 4px 6px;
+
+    align-self: flex-start;
+
+    border-radius: 4px;
+
+  }
+
+
+  /* Price */
+
+  #custom-product-hero-{{ section.id }} .coffee-price {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-top: 30px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #ddd;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .coffee-price strong {
+
+    font-size: 32px;
+
+  }
+
+
+  /* CTA */
+
+  #custom-product-hero-{{ section.id }} .coffee-cta {
+
+    width: 100%;
+
+    margin-top: 18px;
+
+    padding: 17px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: #6b3f20;
+
+    color: white;
+
+    font-weight: 700;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .coffee-cta:hover {
+
+    background: #4f2d17;
+
+  }
+
+
+  #custom-product-hero-{{ section.id }} .coffee-cta:disabled {
+
+    opacity: .6;
+
+    cursor: wait;
+
+  }
+
+
+  /* Mobile */
+
+  @media (max-width: 749px) {
+
+    #custom-product-hero-{{ section.id }} {
+
+      padding: 30px 15px;
+
+    }
+
+
+    #custom-product-hero-{{ section.id }} .coffee-hero__inner {
+
+      grid-template-columns: 1fr;
+
+      gap: 30px;
+
+    }
+
+
+    #custom-product-hero-{{ section.id }} h1 {
+
+      font-size: 32px;
+
+    }
+
+
+    #custom-product-hero-{{ section.id }} .pack-options {
+
+      grid-template-columns: 1fr;
+
+    }
+
+  }
+
+</style>
+
+
+<script>
+
+(() => {
+
+  const root = document.getElementById(
+    'custom-product-hero-{{ section.id }}'
+  );
+
+  if (!root) return;
+
+
+  /* --------------------------------
+     Shopify Variants
+  -------------------------------- */
+
+  const variantsElement =
+    document.getElementById(
+      'coffee-variants-{{ section.id }}'
+    );
+
+
+  if (!variantsElement) return;
+
+
+  const variants =
+    JSON.parse(
+      variantsElement.textContent
+    );
+
+
+  /* --------------------------------
+     Elements
+  -------------------------------- */
+
+  const price =
+    root.querySelector(
+      '#coffee-price-{{ section.id }}'
+    );
+
+
+  const cta =
+    root.querySelector(
+      '#coffee-cta-{{ section.id }}'
+    );
+
+
+  /* --------------------------------
+     Discount Code
+     
+     IMPORTANT:
+     Create this exact discount code
+     in Shopify Admin:
+     
+     SUBSCRIBE10
+  -------------------------------- */
+
+  const SUBSCRIBE_DISCOUNT =
+    'SUBSCRIBE10';
+
+
+  /* --------------------------------
+     Current selections
+  -------------------------------- */
+
+  let flavor = '';
+
+  let pack = '';
+
+  let purchaseType = 'one_time';
+
+
+  /* --------------------------------
+     Initial selections
+  -------------------------------- */
+
+  const activeFlavorButton =
+    root.querySelector(
+      '.flavor-option.active'
+    );
+
+
+  const activePackButton =
+    root.querySelector(
+      '.pack-option.active'
+    );
+
+
+  if (activeFlavorButton) {
+
+    flavor =
+      activeFlavorButton.dataset.flavor;
+
+  }
+
+
+  if (activePackButton) {
+
+    pack =
+      activePackButton.dataset.pack;
+
+  }
+
+
+  /*
+   * Fallback
+   */
+  if (!flavor || !pack) {
+
+    const firstVariant =
+      variants.find(
+        variant => variant.available
+      ) || variants[0];
+
+
+    if (firstVariant) {
+
+      flavor =
+        firstVariant.options[0];
+
+      pack =
+        firstVariant.options[1];
+
+    }
+
+  }
+
+
+  /* --------------------------------
+     Select helper
+  -------------------------------- */
+
+  function select(
+    selector,
+    element
+  ) {
+
+    root
+      .querySelectorAll(selector)
+      .forEach(item => {
+
+        item.classList.remove(
+          'active'
+        );
+
+      });
+
+
+    element.classList.add(
+      'active'
+    );
+
+  }
+
+
+  /* --------------------------------
+     Get Shopify Variant
+  -------------------------------- */
+
+  function getVariant() {
+
+    return variants.find(
+      variant => {
+
+        return (
+
+          variant.options[0] === flavor &&
+
+          variant.options[1] === pack
+
+        );
+
+      }
+    );
+
+  }
+
+
+  /* --------------------------------
+     Money
+  -------------------------------- */
+
+  function formatMoney(
+    cents
+  ) {
+
+    return (
+      '$' +
+      (
+        Number(cents) / 100
+      ).toFixed(2)
+    );
+
+  }
+
+
+  /* --------------------------------
+     Update Price
+  -------------------------------- */
+
+  function updatePrice() {
+
+    const variant =
+      getVariant();
+
+
+    if (!variant) {
+
+      price.textContent =
+        'Unavailable';
+
+      cta.disabled = true;
+
+      return;
+
+    }
+
+
+    let amount =
+      Number(variant.price);
+
+
+    /*
+     * Display 10% discount
+     * when Subscribe is selected.
+     */
+    if (
+      purchaseType ===
+      'subscribe'
+    ) {
+
+      amount =
+        amount * 0.90;
+
+    }
+
+
+    price.textContent =
+      formatMoney(amount);
+
+
+    if (!variant.available) {
+
+      cta.disabled = true;
+
+      cta.textContent =
+        'SOLD OUT';
+
+    } else {
+
+      cta.disabled = false;
+
+      cta.textContent =
+        'GET MY COFFEE →';
+
+    }
+
+  }
+
+
+  /* --------------------------------
+     Flavor
+  -------------------------------- */
+
+  root
+    .querySelectorAll(
+      '.flavor-option'
+    )
+    .forEach(button => {
+
+      button.addEventListener(
+        'click',
+        () => {
+
+          flavor =
+            button.dataset.flavor;
+
+
+          select(
+            '.flavor-option',
+            button
+          );
+
+
+          updatePrice();
+
+        }
+      );
+
+    });
+
+
+  /* --------------------------------
+     Purchase Type
+  -------------------------------- */
+
+  root
+    .querySelectorAll(
+      '.purchase-option'
+    )
+    .forEach(button => {
+
+      button.addEventListener(
+        'click',
+        () => {
+
+          purchaseType =
+            button.dataset.purchase;
+
+
+          select(
+            '.purchase-option',
+            button
+          );
+
+
+          updatePrice();
+
+        }
+      );
+
+    });
+
+
+  /* --------------------------------
+     Pack
+  -------------------------------- */
+
+  root
+    .querySelectorAll(
+      '.pack-option'
+    )
+    .forEach(button => {
+
+      button.addEventListener(
+        'click',
+        () => {
+
+          pack =
+            button.dataset.pack;
+
+
+          select(
+            '.pack-option',
+            button
+          );
+
+
+          updatePrice();
+
+        }
+      );
+
+    });
+
+
+  /* --------------------------------
+     ADD TO CART
+  -------------------------------- */
+
+  cta.addEventListener(
+    'click',
+    async () => {
+
+      if (cta.disabled) return;
+
+
+      const variant =
+        getVariant();
+
+
+      if (!variant) {
+
+        console.error(
+          'Shopify variant not found.',
+          {
+            flavor,
+            pack,
+            variants
+          }
+        );
+
+
+        alert(
+          'Please select a valid flavor and pack.'
+        );
+
+
+        return;
+
+      }
+
+
+      if (!variant.available) {
+
+        alert(
+          'This variant is currently sold out.'
+        );
+
+
+        return;
+
+      }
+
+
+      /*
+       * Disable CTA
+       */
+
+      cta.disabled = true;
+
+      cta.textContent =
+        'ADDING…';
+
+
+      try {
+
+        /*
+         * Add product to Shopify cart
+         */
+
+        const response =
+          await fetch(
+            window.Shopify.routes.root +
+            'cart/add.js',
+            {
+
+              method: 'POST',
+
+              headers: {
+
+                'Content-Type':
+                  'application/json',
+
+                'Accept':
+                  'application/json'
+
+              },
+
+              body: JSON.stringify({
+
+                items: [
+
+                  {
+
+                    id:
+                      Number(
+                        variant.id
+                      ),
+
+                    quantity: 1
+
+                  }
+
+                ]
+
+              })
+
+            }
+          );
+
+
+        const data =
+          await response.json();
+
+
+        /*
+         * Shopify error
+         */
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.description ||
+            data.message ||
+            'Unable to add product to cart.'
+          );
+
+        }
+
+
+        console.log(
+          'Added to cart:',
+          data
+        );
+
+
+        /*
+         * Subscribe:
+         * Apply actual Shopify discount
+         *
+         * One-Time:
+         * Normal cart
+         */
+
+        if (
+          purchaseType ===
+          'subscribe'
+        ) {
+
+          cta.textContent =
+            'APPLYING DISCOUNT…';
+
+
+          /*
+           * Redirect using discount URL.
+           *
+           * Shopify applies the discount
+           * code to the cart.
+           */
+
+          const discountUrl =
+            window.Shopify.routes.root +
+            'discount/' +
+            encodeURIComponent(
+              SUBSCRIBE_DISCOUNT
+            ) +
+            '?redirect=/cart';
+
+
+          window.location.href =
+            discountUrl;
+
+
+        } else {
+
+          /*
+           * Normal one-time purchase
+           */
+
+          cta.textContent =
+            'ADDED ✓';
+
+
+          setTimeout(
+            () => {
+
+              window.location.href =
+                window.Shopify.routes.root +
+                'cart';
+
+            },
+            300
+          );
+
+        }
+
+
+      } catch (error) {
+
+        console.error(
+          'Add to cart error:',
+          error
+        );
+
+
+        cta.disabled = false;
+
+        cta.textContent =
+          'GET MY COFFEE →';
+
+
+        alert(
+          error.message ||
+          'Something went wrong. Please try again.'
+        );
+
+      }
+
+    }
+  );
+
+
+  /* --------------------------------
+     Gallery
+  -------------------------------- */
+
+  const thumbs = [
+
+    ...root.querySelectorAll(
+      '.coffee-thumb'
+    )
+
+  ];
+
+
+  const mainImage =
+    root.querySelector(
+      '#coffee-main-image-{{ section.id }}'
+    );
+
+
+  let currentImage = 0;
+
+
+  function showImage(index) {
+
+    if (
+      !thumbs.length ||
+      !mainImage
+    ) {
+
+      return;
+
+    }
+
+
+    currentImage =
+      (
+        index +
+        thumbs.length
+      ) %
+      thumbs.length;
+
+
+    mainImage.src =
+      thumbs[
+        currentImage
+      ].dataset.image;
+
+
+    thumbs.forEach(
+      (thumb, i) => {
+
+        thumb.classList.toggle(
+          'active',
+          i === currentImage
+        );
+
+      }
+    );
+
+  }
+
+
+  /* Thumbnail */
+
+  thumbs.forEach(
+    (thumb, index) => {
+
+      thumb.addEventListener(
+        'click',
+        () => {
+
+          showImage(index);
+
+        }
+      );
+
+    }
+  );
+
+
+  /* Previous */
+
+  const previous =
+    root.querySelector(
+      '.gallery-prev'
+    );
+
+
+  if (previous) {
+
+    previous.addEventListener(
+      'click',
+      () => {
+
+        showImage(
+          currentImage - 1
+        );
+
+      }
+    );
+
+  }
+
+
+  /* Next */
+
+  const next =
+    root.querySelector(
+      '.gallery-next'
+    );
+
+
+  if (next) {
+
+    next.addEventListener(
+      'click',
+      () => {
+
+        showImage(
+          currentImage + 1
+        );
+
+      }
+    );
+
+  }
+
+
+  /* --------------------------------
+     Initial Price
+  -------------------------------- */
+
+  updatePrice();
+
+
+})();
+</script>
+
+
+{% schema %}
+
+{
+  "name": "Custom Product Hero",
+
+  "settings": [],
+
+  "presets": [
+    {
+      "name": "Custom Product Hero"
+    }
+  ]
+
+}
+
+{% endschema %}
