@@ -1605,11 +1605,11 @@ if (buyButton) {
 
 
       /*
-       * Your external checkout offer ID
+       * Offer ID = Shopify product ID
        */
 
       const offerId =
-        '501';
+        {{ product.id | json }};
 
 
       /*
@@ -1622,37 +1622,17 @@ if (buyButton) {
       /*
        * Final URL
        *
+       * Format: OFFER_ID.VARIANT_ID:QUANTITY
+       *
        * Example:
-       *
-       * https://example-checkout.com/checkout?products=501.1101:1
-       *
-       * Here 1101 will automatically
-       * change according to selected
-       * Shopify variant.
+       * https://brdholding-test.myshopify.com/checkout?products=501.1101:1
        */
 
-      {% comment %} const checkoutUrl = 'https://brdholding-test.myshopify.com/cart/'+variantId+':1'
-        'https://example-checkout.com/checkout?products=' + {% endcomment %}
+      const checkoutUrl =
+        'https://brdholding-test.myshopify.com/checkout' +
+        '?products=' +
+        offerId + '.' + variantId + ':' + quantity;
 
-
-        {% comment %} const checkoutUrl = 'https://brdholding-test.myshopify.com/cart/' + variantId + ':' + quantity + '?checkout'; {% endcomment %}
-       
-// Buy Now click handler
-fetch('/cart/add.js', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    items: [{
-      id: variantId,
-      quantity: quantity,
-      properties: { '_buy_now_only': 'true' } // marker
-    }]
-  })
-})
-  .then(function (r) { return r.json(); })
-  .then(function () {
-    window.location.href = '/checkout';
-  });
 
       console.log(
         'Selected Flavor:',
