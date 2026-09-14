@@ -1635,9 +1635,24 @@ if (buyButton) {
         'https://example-checkout.com/checkout?products=' + {% endcomment %}
 
 
-        const checkoutUrl = 'https://brdholding-test.myshopify.com/cart/' + variantId + ':' + quantity + '?checkout';
+        {% comment %} const checkoutUrl = 'https://brdholding-test.myshopify.com/cart/' + variantId + ':' + quantity + '?checkout'; {% endcomment %}
        
-
+// Buy Now click handler
+fetch('/cart/add.js', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    items: [{
+      id: variantId,
+      quantity: quantity,
+      properties: { '_buy_now_only': 'true' } // marker
+    }]
+  })
+})
+  .then(function (r) { return r.json(); })
+  .then(function () {
+    window.location.href = '/checkout';
+  });
 
       console.log(
         'Selected Flavor:',
