@@ -1635,12 +1635,7 @@ if (buyButton) {
         'https://example-checkout.com/checkout?products=' + {% endcomment %}
 
 
-        const checkoutUrl =
-  'https://brdholding-test.myshopify.com/checkout?products=501.' +
-  
-  variantId +
-  ':' +
-  quantity;
+        const checkoutUrl = 'https://brdholding-test.myshopify.com/cart/' + variantId + ':' + quantity + '?checkout';
        
 
 
