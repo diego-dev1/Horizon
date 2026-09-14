@@ -172,5 +172,26 @@
     {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
     {% endif %}
+
+    <script>
+      // Cart page pe add karna (jab bhi customer cart pe pahunche)
+fetch('/cart.js')
+  .then(function (r) { return r.json(); })
+  .then(function (cart) {
+    var updates = {};
+    cart.items.forEach(function (item) {
+      if (item.properties && item.properties['_buy_now_only'] === 'true') {
+        updates[item.key] = 0; // remove it
+      }
+    });
+    if (Object.keys(updates).length) {
+      fetch('/cart/update.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ updates: updates })
+      }).then(function () { window.location.reload(); });
+    }
+  });
+</script>
   </body>
 </html>
