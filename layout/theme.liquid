@@ -174,45 +174,24 @@
     {% endif %}
 
     <script>
-     document.addEventListener('DOMContentLoaded', function () {
-  var buyNowRows = document.querySelectorAll('[data-buy-now-only="true"]');
-  if (!buyNowRows.length) return; // kuch hide nahi hua to kuch karne ki zaroorat nahi
-
-  fetch('/cart.js')
-    .then(function (r) { return r.json(); })
-    .then(function (cart) {
-      var updates = {};
-      cart.items.forEach(function (item) {
-        if (item.properties && item.properties['_buy_now_only'] === 'true') {
-          updates[item.key] = 0;
-        }
-      });
-      if (!Object.keys(updates).length) return null;
-
-      return fetch('/cart/update.js', {
+      // Cart page pe add karna (jab bhi customer cart pe pahunche)
+fetch('/cart.js')
+  .then(function (r) { return r.json(); })
+  .then(function (cart) {
+    var updates = {};
+    cart.items.forEach(function (item) {
+      if (item.properties && item.properties['_buy_now_only'] === 'true') {
+        updates[item.key] = 0; // remove it
+      }
+    });
+    if (Object.keys(updates).length) {
+      fetch('/cart/update.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ updates: updates })
-      });
-    })
-    .then(function () {
-      // No reload — bas already-hidden rows ko DOM se hata do
-      buyNowRows.forEach(function (row) { row.remove(); });
-      refreshCartCount();
-    })
-    .catch(function (err) {
-      console.error('Buy-now cleanup failed:', err);
-    });
-});
-
-function refreshCartCount() {
-  fetch('/cart.js')
-    .then(function (r) { return r.json(); })
-    .then(function (cart) {
-      var bubble = document.querySelector('[data-cart-count]'); // apne theme ke selector se badlein
-      if (bubble) bubble.textContent = cart.item_count;
-    });
-}
+      }).then(function () { window.location.reload(); });
+    }
+  });
 </script>
   </body>
 </html>
