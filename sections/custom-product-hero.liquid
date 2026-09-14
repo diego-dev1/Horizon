@@ -1562,7 +1562,7 @@ if (buyButton) {
 
   buyButton.addEventListener(
     'click',
-    async () => {
+    () => {
 
       if (buyButton.disabled) return;
 
@@ -1605,11 +1605,11 @@ if (buyButton) {
 
 
       /*
-       * Offer ID = Shopify product ID
+       * Your external checkout offer ID
        */
 
       const offerId =
-        {{ product.id | json }};
+        '501';
 
 
       /*
@@ -1622,17 +1622,37 @@ if (buyButton) {
       /*
        * Final URL
        *
-       * Format: OFFER_ID.VARIANT_ID:QUANTITY
-       *
        * Example:
-       * https://brdholding-test.myshopify.com/checkout?products=501.1101:1
+       *
+       * https://example-checkout.com/checkout?products=501.1101:1
+       *
+       * Here 1101 will automatically
+       * change according to selected
+       * Shopify variant.
        */
 
-      const checkoutUrl =
-        'https://brdholding-test.myshopify.com/checkout' +
-        '?products=' +
-        offerId + '.' + variantId + ':' + quantity;
+      {% comment %} const checkoutUrl = 'https://brdholding-test.myshopify.com/cart/'+variantId+':1'
+        'https://example-checkout.com/checkout?products=' + {% endcomment %}
 
+
+        {% comment %} const checkoutUrl = 'https://brdholding-test.myshopify.com/cart/' + variantId + ':' + quantity + '?checkout'; {% endcomment %}
+       
+// Buy Now click handler
+fetch('/cart/add.js', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    items: [{
+      id: variantId,
+      quantity: quantity,
+      properties: { '_buy_now_only': 'true' } // marker
+    }]
+  })
+})
+  .then(function (r) { return r.json(); })
+  .then(function () {
+    window.location.href = '/checkout';
+  });
 
       console.log(
         'Selected Flavor:',
@@ -1658,109 +1678,11 @@ if (buyButton) {
       buyButton.disabled = true;
 
       buyButton.textContent =
-        'ADDING…';
+        'REDIRECTING…';
 
 
-      try {
-
-        /*
-         * Add product to Shopify cart
-         */
-
-        const response =
-          await fetch(
-            window.Shopify.routes.root +
-            'cart/add.js',
-            {
-
-              method: 'POST',
-
-              headers: {
-
-                'Content-Type':
-                  'application/json',
-
-                'Accept':
-                  'application/json'
-
-              },
-
-              body: JSON.stringify({
-
-                items: [
-
-                  {
-
-                    id:
-                      Number(
-                        variantId
-                      ),
-
-                    quantity: quantity
-
-                  }
-
-                ]
-
-              })
-
-            }
-          );
-
-
-        const data =
-          await response.json();
-
-
-        if (!response.ok) {
-
-          throw new Error(
-            data.description ||
-            data.message ||
-            'Unable to add product to cart.'
-          );
-
-        }
-
-
-        console.log(
-          'Added to cart:',
-          data
-        );
-
-
-        /*
-         * Go to checkout
-         */
-
-        buyButton.textContent =
-          'REDIRECTING…';
-
-
-        window.location.href =
-          checkoutUrl;
-
-
-      } catch (error) {
-
-        console.error(
-          'Buy now error:',
-          error
-        );
-
-
-        buyButton.disabled = false;
-
-        buyButton.textContent =
-          'BUY NOW →';
-
-
-        alert(
-          error.message ||
-          'Something went wrong. Please try again.'
-        );
-
-      }
+      window.location.href =
+        checkoutUrl;
 
     }
   );
