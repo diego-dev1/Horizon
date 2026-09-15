@@ -1385,13 +1385,8 @@
      * No cart/add.js required.
      */
 
-    {% comment %} const checkoutUrl =
-      window.Shopify.routes.root +
-      'cart/' +
-      variant.id +
-      ':1'; {% endcomment %}
 
-      let  checkoutUrl =
+      let checkoutUrl =
           window.Shopify.routes.root +
           'checkouts?products={{ product.id }}.' +
           variant.id +
@@ -1401,12 +1396,7 @@
           item => item.key === variant.id + ""
         );
  
-        
       if (item) {
-        console.log("--", window.Shopify.routes.root);
-        console.log("--", item.offerId);
-        console.log("--", item.variantId);
-
         checkoutUrl =
           window.Shopify.routes.root +
           'checkouts?products=' +
@@ -1416,13 +1406,6 @@
           ':1';
 
       }
-
-      {% comment %} else
-        const checkoutUrl =
-          window.Shopify.routes.root +
-          'checkouts?products={{ product.id }}.' +
-          variant.id +
-          ':1'; {% endcomment %}
 
     window.location.href =  checkoutUrl;
 
