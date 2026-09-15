@@ -1498,7 +1498,7 @@
            */
 
           const response =
-            {% comment %} await fetch(
+            await fetch(
               window.Shopify.routes.root +
               'cart/add.js',
               {
@@ -1533,7 +1533,7 @@
                 })
 
               }
-            ); {% endcomment %}
+            );
 
 
           const data =
