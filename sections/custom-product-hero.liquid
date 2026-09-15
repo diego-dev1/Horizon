@@ -1397,10 +1397,9 @@
           variant.id +
           ':1';
       
-      const variantId = "{{ variant.id }}";
-      console.log("Shopify variant ID:", variantId);
+
       const item = mappings.find(
-          item => item.key === variantId
+          item => item.key === variant.id
         );
  
       console.log("----",item);
