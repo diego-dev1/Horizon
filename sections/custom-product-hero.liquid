@@ -146,22 +146,33 @@
 
         <h2>2. Choose Purchase Type</h2>
 
-        <div class="purchase-options">
+        
 
+        <div class="purchase-options">
+ {% assign type = product.options_with_values | where: "name", "Type" %}
+
+          {% if type.size > 0 %}
+
+            {% for value in flavors.first.values %}
           <button
             type="button"
-            class="purchase-option active"
+            class="purchase-option {% if forloop.index == 1 %}active{% endif %}"
             data-purchase="one_time"
           >
 
-            <strong>One-Time Purchase</strong>
+            <strong>{{ value }}</strong>
 
+            {% if value contains 'One' %}
             <span>Regular price</span>
+            {% else %}
+              <span>Additional 10% Off</span>
+            {% endif %}
 
           </button>
 
-
-          <button
+{% endfor %}
+{% endif %}
+          {% comment %} <button
             type="button"
             class="purchase-option"
             data-purchase="subscribe"
@@ -171,7 +182,7 @@
 
             <span>Additional 10% Off</span>
 
-          </button>
+          </button> {% endcomment %}
 
         </div>
 
