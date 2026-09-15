@@ -1490,7 +1490,7 @@
           'REDIRECTING…';
 
 
-        {% comment %} try {
+        try {
 
           /*
            * Add selected variant
@@ -1498,7 +1498,7 @@
            */
 
           const response =
-            await fetch(
+            {% comment %} await fetch(
               window.Shopify.routes.root +
               'cart/add.js',
               {
@@ -1533,7 +1533,7 @@
                 })
 
               }
-            );
+            ); {% endcomment %}
 
 
           const data =
@@ -1548,7 +1548,7 @@
               'Unable to add product.'
             );
 
-          } {% endcomment %}
+          }
 
 
           /*
