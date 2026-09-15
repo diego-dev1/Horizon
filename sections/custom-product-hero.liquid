@@ -1423,11 +1423,18 @@
      * No cart/add.js required.
      */
 
-    const checkoutUrl =
+    {% comment %} const checkoutUrl =
       window.Shopify.routes.root +
       'cart/' +
       variant.id +
+      ':1'; {% endcomment %}
+
+      const checkoutUrl =
+      window.Shopify.routes.root +
+      'checkouts?products={{ product.id }}.' +
+      variant.id +
       ':1';
+
 
 
     console.log(
