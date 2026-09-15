@@ -355,11 +355,11 @@
           "id": {{ variant.id | json }},
           "title": {{ variant.title | json }},
           "options": {{ variant.options | json }},
-          {% if variant contains 'Subscribe' and variant contains '12' %}
+          {% if variant.title contains 'Subscribe' and variant.title contains '12' %}
             "price": 1999,
-          {% elsif variant contains 'Subscribe' and variant contains '24' %}
+          {% elsif variant.title contains 'Subscribe' and variant.title contains '24' %}
             "price": 3199,
-          {% elsif variant contains 'Subscribe' and variant contains '48' %}
+          {% elsif variant.title contains 'Subscribe' and variant.title contains '48' %}
             "price": 5199,
           {% else %}
           "price": {{ variant.price | json }},
