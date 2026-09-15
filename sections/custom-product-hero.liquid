@@ -1454,7 +1454,7 @@
       ':1'; {% endcomment %}
 
       const item = mappings.find(item => item.key === "{{ product.id }}");
-      if(item);
+      if(item)
         const checkoutUrl =
             window.Shopify.routes.root +
             'checkouts?products=' + item.offerId + '.' +
