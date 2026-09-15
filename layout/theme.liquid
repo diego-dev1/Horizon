@@ -172,7 +172,7 @@
     {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
     {% endif %}
-
+{% comment %} 
     <script>
       // Cart page pe add karna (jab bhi customer cart pe pahunche)
 fetch('/cart.js')
@@ -192,6 +192,6 @@ fetch('/cart.js')
       }).then(function () { window.location.reload(); });
     }
   });
-</script>
+</script> {% endcomment %}
   </body>
 </html>
