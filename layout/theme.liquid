@@ -193,5 +193,11 @@ fetch('/cart.js')
     }
   });
 </script> {% endcomment %}
+
+<script>
+  if (window.location.pathname === '/cart') {
+  window.location.replace('/');
+}
+</script>
   </body>
 </html>
