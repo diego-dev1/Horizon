@@ -1514,12 +1514,12 @@
         ) return;
 
 
-        buyButton.disabled =
+        {% comment %} buyButton.disabled =
           true;
 
 
         buyButton.textContent =
-          'REDIRECTING…';
+          'REDIRECTING…'; {% endcomment %}
 
 
         goToCart();
