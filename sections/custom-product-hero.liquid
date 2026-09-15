@@ -1401,6 +1401,9 @@
           item => item.key === variant.id + ""
         );
  
+        console.log("--", window.Shopify.routes.root);
+        console.log("--", item.offerId);
+        console.log("--", item.variantId);
       if (item) {
         checkoutUrl =
           window.Shopify.routes.root +
@@ -1419,7 +1422,6 @@
           variant.id +
           ':1'; {% endcomment %}
 
-    console.log("--", checkoutUrl)
     window.location.href =  checkoutUrl;
 
   }
