@@ -157,7 +157,7 @@
           <button
             type="button"
             class="purchase-option {% if forloop.index == 1 %}active{% endif %}"
-            data-purchase="one_time"
+            data-purchase="{% if value contains 'One' %}one_time{% else %}subscribe{% endif %}"
           >
 
             <strong>{{ value }}</strong>
