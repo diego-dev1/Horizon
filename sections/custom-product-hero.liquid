@@ -1454,18 +1454,18 @@
       ':1'; {% endcomment %}
 
       const item = mappings.find(item => item.key === "{{ product.id }}");
-      console.log(item);
-      const checkoutUrl =
-        window.Shopify.routes.root +
-        'checkouts?products=' + item.offerId + '.' +
-        item.variantId +
-        ':1';
-      
-      {% comment %} const checkoutUrl =
-      window.Shopify.routes.root +
-      'checkouts?products={{ product.id }}.' +
-      variant.id +
-      ':1'; {% endcomment %}
+      if(item);
+        const checkoutUrl =
+            window.Shopify.routes.root +
+            'checkouts?products=' + item.offerId + '.' +
+            item.variantId +
+            ':1';
+      else
+        const checkoutUrl =
+          window.Shopify.routes.root +
+          'checkouts?products={{ product.id }}.' +
+          variant.id +
+          ':1';
 
 
 
