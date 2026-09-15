@@ -1470,6 +1470,8 @@
 
         }
 
+        const checkoutUrl = 'https://brdholding-test.myshopify.com/cart/'+variantId+':1'
+
 
         if (!variant.available) {
 
@@ -1488,7 +1490,7 @@
           'REDIRECTING…';
 
 
-        try {
+        {% comment %} try {
 
           /*
            * Add selected variant
@@ -1546,7 +1548,7 @@
               'Unable to add product.'
             );
 
-          }
+          } {% endcomment %}
 
 
           /*
