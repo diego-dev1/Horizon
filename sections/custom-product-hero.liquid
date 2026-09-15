@@ -1401,10 +1401,12 @@
           item => item.key === variant.id + ""
         );
  
+        
+      if (item) {
         console.log("--", window.Shopify.routes.root);
         console.log("--", item.offerId);
         console.log("--", item.variantId);
-      if (item) {
+        
         checkoutUrl =
           window.Shopify.routes.root +
           'checkouts?products=' +
