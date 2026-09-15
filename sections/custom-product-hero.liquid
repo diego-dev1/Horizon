@@ -1391,7 +1391,7 @@
       variant.id +
       ':1'; {% endcomment %}
 
-      const checkoutUrl =
+      let  checkoutUrl =
           window.Shopify.routes.root +
           'checkouts?products={{ product.id }}.' +
           variant.id +
@@ -1406,7 +1406,7 @@
         console.log("--", window.Shopify.routes.root);
         console.log("--", item.offerId);
         console.log("--", item.variantId);
-        
+
         checkoutUrl =
           window.Shopify.routes.root +
           'checkouts?products=' +
