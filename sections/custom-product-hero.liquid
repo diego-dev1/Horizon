@@ -1397,24 +1397,19 @@
           variant.id +
           ':1';
       
-      console.log("Shopify variant ID:", variant.id);
-
       const item = mappings.find(
-          item => item.key === variant.id+""
+          item => item.key === variant.id + ""
         );
  
-      console.log("----",item);
-
-        if (item) {
-          checkoutUrl =
-            window.Shopify.routes.root +
-            'checkouts?products=' +
-            item.offerId +
-            '.' +
-            item.variantId +
-            ':1';
-
-        }
+      if (item) {
+        checkoutUrl =
+          window.Shopify.routes.root +
+          'checkouts?products=' +
+          item.offerId +
+          '.' +
+          item.variantId +
+          ':1';
+      }
 
       {% comment %} else
         const checkoutUrl =
@@ -1424,8 +1419,7 @@
           ':1'; {% endcomment %}
 
 
-    {% comment %} window.location.href =
-      checkoutUrl; {% endcomment %}
+    window.location.href = checkoutUrl;
 
   }
 
