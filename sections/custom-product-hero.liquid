@@ -1453,15 +1453,17 @@
       variant.id +
       ':1'; {% endcomment %}
 
-      const item = mappings.find(
-          item => item.key === "{{ variant.id }}"
-        );
-
       const checkoutUrl =
           window.Shopify.routes.root +
           'checkouts?products={{ product.id }}.' +
           variant.id +
           ':1';
+          
+      const item = mappings.find(
+          item => item.key === "{{ variant.id }}"
+        );
+
+      
 
         if (item) {
           checkoutUrl =
