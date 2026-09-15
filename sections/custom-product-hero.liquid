@@ -872,25 +872,6 @@
       'Pack'
     );
 
-
-  console.log(
-    'Flavor position:',
-    flavorPosition
-  );
-
-
-  console.log(
-    'Type position:',
-    typePosition
-  );
-
-
-  console.log(
-    'Pack position:',
-    packPosition
-  );
-
-
   /* ==================================
      INITIAL VALUES
   ================================== */
@@ -1113,24 +1094,6 @@
         }
       );
 
-
-    console.log(
-      'Selected:',
-      {
-        flavor,
-        selectedType,
-        pack,
-        purchaseType
-      }
-    );
-
-
-    console.log(
-      'Selected Variant:',
-      variant
-    );
-
-
     return variant;
 
   }
@@ -1331,19 +1294,6 @@
             selectedType =
               button.dataset.type;
 
-
-            console.log(
-              'Purchase Type:',
-              purchaseType
-            );
-
-
-            console.log(
-              'Shopify Type:',
-              selectedType
-            );
-
-
             select(
               '.purchase-option',
               button
@@ -1462,7 +1412,6 @@
             item.variantId +
             ':1';
 
-          console.log(checkoutUrl);
         }
 
       {% comment %} else
@@ -1473,39 +1422,8 @@
           ':1'; {% endcomment %}
 
 
-
-    console.log(
-      'Selected Flavor:',
-      flavor
-    );
-
-
-    console.log(
-      'Selected Type:',
-      selectedType
-    );
-
-
-    console.log(
-      'Selected Pack:',
-      pack
-    );
-
-
-    console.log(
-      'Selected Variant ID:',
-      variant.id
-    );
-
-
-    console.log(
-      'Cart URL:',
-      checkoutUrl
-    );
-
-
-    window.location.href =
-      checkoutUrl;
+    {% comment %} window.location.href =
+      checkoutUrl; {% endcomment %}
 
   }
 
