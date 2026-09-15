@@ -1460,12 +1460,12 @@
             'checkouts?products=' + item.offerId + '.' +
             item.variantId +
             ':1';
-      else
+      {% comment %} else
         const checkoutUrl =
           window.Shopify.routes.root +
           'checkouts?products={{ product.id }}.' +
           variant.id +
-          ':1';
+          ':1'; {% endcomment %}
 
 
 
