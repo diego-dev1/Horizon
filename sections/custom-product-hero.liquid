@@ -1457,8 +1457,14 @@
           item => item.key === "{{ variant.id }}"
         );
 
+      const checkoutUrl =
+          window.Shopify.routes.root +
+          'checkouts?products={{ product.id }}.' +
+          variant.id +
+          ':1';
+
         if (item) {
-          const checkoutUrl =
+          checkoutUrl =
             window.Shopify.routes.root +
             'checkouts?products=' +
             item.offerId +
