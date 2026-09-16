@@ -780,12 +780,12 @@
     { key: "44597195145281", offerId: 601, variantId: 1103 },
 
     { key: "44597194981441", offerId: 602, variantId: 1201 },
-    { key: "44597195079745", offerId: 602, variantId: 1201 },
-    { key: "44597195178049", offerId: 602, variantId: 1201 },
+    { key: "44597195079745", offerId: 602, variantId: 1202 },
+    { key: "44597195178049", offerId: 602, variantId: 1203 },
 
     { key: "44597195014209", offerId: 603, variantId: 1301 },
-    { key: "44597195112513", offerId: 603, variantId: 1301 },
-    { key: "44597195210817", offerId: 603, variantId: 1301 }
+    { key: "44597195112513", offerId: 603, variantId: 1302 },
+    { key: "44597195210817", offerId: 603, variantId: 1303 }
   ];
   /* ==================================
      ELEMENTS
@@ -1387,7 +1387,7 @@
 
 
       let checkoutUrl =
-          window.Shopify.routes.root +
+          'https://example-checkout.com/' +
           'checkouts?products={{ product.id }}.' +
           variant.id +
           ':1';
@@ -1398,7 +1398,7 @@
  
       if (item) {
         checkoutUrl =
-          window.Shopify.routes.root +
+          'https://example-checkout.com/' +
           'checkouts?products=' +
           item.offerId +
           '.' +
